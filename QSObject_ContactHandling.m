@@ -44,7 +44,7 @@
 }
 
 - (NSString *)identifierForObject:(id <QSObject > )object {
-    return [[object objectForType:@"ABPeopleUIDsPboardType"] objectAtIndex:0];
+    return [[(QSObject *)object objectForType:@"ABPeopleUIDsPboardType"] objectAtIndex:0];
 }
 
 + (NSString *)contactlingNameForPerson:(ABPerson *)person label:(NSString *)label type:(NSString *)type asChild:(BOOL)child {
@@ -56,7 +56,7 @@
 
 + (NSArray *)URLObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {
 	ABMultiValue *urls = [person valueForProperty:kABURLsProperty];
-	int i;
+	NSUInteger i;
 	NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
 	for (i = 0; i < [urls count]; i++) {
 		NSString *address = [urls valueAtIndex:i];
@@ -73,7 +73,7 @@
 + (NSArray *)emailObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {
 	
 	ABMultiValue *emailAddresses = [person valueForProperty:kABEmailProperty];
-	int i;
+	NSUInteger i;
     NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
 	for (i = 0; i < [emailAddresses count]; i++) {
 		NSString *address = [emailAddresses valueAtIndex:i];
@@ -90,7 +90,7 @@
 + (NSArray *)phoneObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {	
 	ABMultiValue *phoneNumbers = [person valueForProperty:kABPhoneProperty];
     NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
-	int i;
+	NSUInteger i;
 	for (i = 0; i < [phoneNumbers count]; i++) {
 		NSString *address = [phoneNumbers valueAtIndex:i];
 		NSString *name = [self contactlingNameForPerson:person label:ABLocalizedPropertyOrLabel([phoneNumbers labelAtIndex:i]) type:[ABLocalizedPropertyOrLabel(kABPhoneProperty) lowercaseString] asChild:asChild];
@@ -106,7 +106,7 @@
 + (NSArray *)addressObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {
     ABMultiValue *addresses = [person valueForProperty:kABAddressProperty];
 	NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
-	int i;
+	NSUInteger i;
 	for (i = 0; i < [addresses count]; i++) {
         ABMultiValue *address = [addresses valueAtIndex:i];
         NSString *string = [[[ABAddressBook sharedAddressBook] formattedAddressFromDictionary:(NSDictionary *)address] string];
@@ -123,7 +123,7 @@
     NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
 	for(NSString * type in imTypes) {
 		ABMultiValue *ims = [person valueForProperty:type];
-		int i;
+		NSUInteger i;
 		for (i = 0; i < [ims count]; i++) {
 			NSString *name = [self contactlingNameForPerson:person label:ABLocalizedPropertyOrLabel([ims labelAtIndex:i]) type:ABLocalizedPropertyOrLabel(type) asChild:asChild];
 			QSObject *obj = [QSObject objectWithString:[ims valueAtIndex:i] name:name type:QSIMAccountType];
@@ -224,7 +224,7 @@
 	
 	NSString *distID = [qsGroup distributionIdentifierForProperty:kABEmailProperty person:person];
 	ABMultiValue *emailAddresses = [person valueForProperty:kABEmailProperty];
-	int multiIndex = (distID ? [emailAddresses indexForIdentifier:distID] : 0);
+	NSUInteger multiIndex = (distID ? [emailAddresses indexForIdentifier:distID] : 0);
 	NSString *address = [emailAddresses valueAtIndex:multiIndex];
 
 	if (address) {
