@@ -1,8 +1,6 @@
 
 #import <AddressBook/AddressBook.h>
 
-#import <QSCore/QSBasicObject.h>
-
 #import "QSObject_ContactHandling.h"
 #import "ABPerson_Display.h"
 
@@ -148,7 +146,7 @@
 	[contactlings addObjectsFromArray:[QSContactObjectHandler URLObjectsForPerson:person asChild:YES]];
 	
 	NSString *note = [person valueForProperty:kABNoteProperty];
-    if (note) {
+    if (note && [note length] ) {
         QSObject *obj = [QSObject objectWithString:note];
         [obj setParentID:[object identifier]];
         [contactlings addObject:obj];
